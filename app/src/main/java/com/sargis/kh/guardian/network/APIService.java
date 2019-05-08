@@ -9,4 +9,5 @@ import retrofit2.http.Url;
 
 public interface APIService {
     @GET Call<DataResponse> getDataSearchedByPage(@Url String url);
+    @GET Call<DataResponse> getDataSearchedByDate(@Url String url);
 }

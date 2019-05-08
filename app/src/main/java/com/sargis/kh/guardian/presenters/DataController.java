@@ -20,7 +20,7 @@ public class DataController {
     //Loaded Tries Count
     private int loadedTriesCount = 1;
 
-    public void increaseLoadedTriesBy(int count) {
+    public void increaseLoadedTriesCount(int count) {
         loadedTriesCount += count;
     }
 

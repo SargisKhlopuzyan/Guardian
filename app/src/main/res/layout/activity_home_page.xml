@@ -18,6 +18,10 @@
             type="boolean" />
 
         <variable
+            name="isPinnedItemsAvailable"
+            type="boolean" />
+
+        <variable
             name="isRefreshing"
             type="boolean" />
 
@@ -48,6 +52,19 @@
             android:text="@{status}"
             android:gravity="center"/>
 
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recyclerViewPinned"
+            android:layout_width="match_parent"
+            android:layout_height="160dp"
+            android:clipToPadding="false"
+            android:scrollbars="none"
+            android:visibility="@{isPinnedItemsAvailable ? View.VISIBLE : View.GONE}"
+            app:layout_constraintTop_toBottomOf="@+id/textViewStatus"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior"
+            tools:listitem="@layout/layout_recycler_view_item_pinned"/>
+
         <android.support.v4.widget.SwipeRefreshLayout
             android:id="@+id/swipeRefreshLayout"
             android:layout_width="0dp"
@@ -55,7 +72,7 @@
             android:layout_height="0dp"
             app:refreshing="@{isRefreshing}"
             app:onRefreshListener="@{() -> onRefreshListener.onRefresh()}"
-            app:layout_constraintTop_toBottomOf="@+id/textViewStatus"
+            app:layout_constraintTop_toBottomOf="@+id/recyclerViewPinned"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent">

@@ -2,8 +2,6 @@ package com.sargis.kh.guardian;
 
 import com.sargis.kh.guardian.models.DataResponse;
 
-import retrofit2.Response;
-
 public interface HomePageContract {
 
     interface View {
