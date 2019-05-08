@@ -17,19 +17,24 @@ public class DataController {
         return instance;
     }
 
-    //Loaded Tries Count
-    private int loadedTriesCount = 1;
-
-    public void increaseLoadedTriesCount(int count) {
-        loadedTriesCount += count;
+    private int page = 1;
+    public void increasePageBy(int count) {
+        page += count;
     }
 
-    public void setLoadedTriesCount(int loadedTriesCount) {
-        this.loadedTriesCount = loadedTriesCount;
+    public void setPage(int page) {
+        this.page = page;
     }
 
-    public int getLoadedTriesCount() {
-        return loadedTriesCount;
+    public int getPage() {
+        return page;
+    }
+
+
+    private int pageSize = 20;
+
+    public int getPageSize() {
+        return pageSize;
     }
 
 }

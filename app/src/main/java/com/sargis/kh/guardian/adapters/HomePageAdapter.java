@@ -44,7 +44,7 @@ public class HomePageAdapter extends RecyclerView.Adapter<HomePageAdapter.DataAd
     @Override
     public void onBindViewHolder(@NonNull DataAdapterViewHolder holder, int position) {
         holder.bindHomePageData(results.get(position), listener);
-        if (position == results.size() - 3){
+        if (position == results.size() - 10){
             onBottomReachedListener.onBottomReached(position);
         }
     }
@@ -54,9 +54,15 @@ public class HomePageAdapter extends RecyclerView.Adapter<HomePageAdapter.DataAd
         return results.size();
     }
 
-    public void addNewResults(List<Results> results) {
+    public void addDataSearchedByPage(List<Results> results) {
         ArrayList<Results> arrayList = new ArrayList(results);
         this.results.addAll(arrayList);
+        notifyDataSetChanged();
+    }
+
+    public void addDataSearchedByFromDate(List<Results> results) {
+        ArrayList<Results> arrayList = new ArrayList(results);
+        this.results.addAll(0, arrayList);
         notifyDataSetChanged();
     }
 
@@ -82,11 +88,8 @@ public class HomePageAdapter extends RecyclerView.Adapter<HomePageAdapter.DataAd
 
                 Picasso.get().load(result.fields.thumbnail)
                         .placeholder(R.drawable.white_image)
-
 //                        .memoryPolicy(MemoryPolicy.NO_CACHE )
                         .networkPolicy(NetworkPolicy.NO_CACHE)
-
-//                        .networkPolicy(NetworkPolicy.OFFLINE)
                         .into(binding.imageView);
             } else {
                 Picasso.get().load(R.drawable.white_image)
@@ -100,7 +103,5 @@ public class HomePageAdapter extends RecyclerView.Adapter<HomePageAdapter.DataAd
                 listener.onItemClick(result);
             });
         }
-
-
     }
 }

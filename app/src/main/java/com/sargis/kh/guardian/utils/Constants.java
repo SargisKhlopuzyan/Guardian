@@ -12,8 +12,9 @@ public interface Constants {
 
     }
 
-    interface ResultKey {
-
+    interface SharedPreferences {
+        String NAME = "DataPref";
+        String LAST_WEB_PUBLICATION_DATE = "lastWebPublicationDate";
     }
 
     interface RequestCode {
@@ -29,6 +30,13 @@ public interface Constants {
     }
 
     interface JobScheduler {
-        int JOB_SCHEDULER_ID = 11;
+        int JOB_SCHEDULER_ID = 0;
     }
+
+    interface Notification {
+        int NOTIFICATION_ID = 0;
+        String NOTIFICATION_CHANNEL_NAME = "dataJobServiceChannelName";
+        String NOTIFICATION_CHANNEL_ID = "dataJobServiceChannelId";
+    }
+
 }

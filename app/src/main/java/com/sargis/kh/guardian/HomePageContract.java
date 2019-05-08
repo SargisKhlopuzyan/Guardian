@@ -6,11 +6,13 @@ public interface HomePageContract {
 
     interface View {
         void displayError(String errorMessage);
-        void loadedData(DataResponse dataResponse);
+        void dataLoadedByPage(DataResponse dataResponse);
+        void dataLoadedByFromDate(DataResponse dataResponse);
     }
 
     interface Presenter {
-        void getDataSearchedByPage(int pageIndex);
+        void getDataSearchedByPage(int page);
+        void getDataSearchedByFromDate(String fromDate);
     }
 
 }

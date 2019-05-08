@@ -1,14 +1,16 @@
 package com.sargis.kh.guardian.presenters;
 
+import android.content.SharedPreferences;
+import android.util.Log;
+
+import com.sargis.kh.guardian.GuardianApplication;
 import com.sargis.kh.guardian.HomePageContract;
 import com.sargis.kh.guardian.models.DataResponse;
-import com.sargis.kh.guardian.network.APIService;
-import com.sargis.kh.guardian.network.RetrofitClientInstance;
-import com.sargis.kh.guardian.network.SearchUrlHelper;
+import com.sargis.kh.guardian.network.calls.Data;
+import com.sargis.kh.guardian.network.calls.GetDataCallback;
+import com.sargis.kh.guardian.utils.Constants;
 
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
+import okhttp3.ResponseBody;
 
 public class HomePagePresenter implements HomePageContract.Presenter {
 
@@ -19,23 +21,45 @@ public class HomePagePresenter implements HomePageContract.Presenter {
     }
 
     @Override
-    public void getDataSearchedByPage(int pageIndex) {
-        /*Create handle for the RetrofitInstance interface*/
-        APIService service = RetrofitClientInstance.getRetrofitInstance().create(APIService.class);
-        Call<DataResponse> call = service.getDataSearchedByPage(SearchUrlHelper.getSearchUrlByPage(pageIndex));
-        call.enqueue(new Callback<DataResponse>() {
+    public void getDataSearchedByPage(int page) {
+
+        Data.getDataSearchedByPage(new GetDataCallback<DataResponse>() {
             @Override
-            public void onResponse(Call<DataResponse> call, Response<DataResponse> response) {
-                viewCallback.loadedData(response.body());
+            public void onSuccess(DataResponse dataResponse) {
+                if (page == 1
+                        && dataResponse != null
+                        && dataResponse.getResponse() != null
+                        && dataResponse.getResponse().results != null
+                        && dataResponse.getResponse().results.size() > 0) {
+
+                    SharedPreferences pref = GuardianApplication.getContext().getSharedPreferences(Constants.SharedPreferences.NAME,0); // 0 - for private mode
+                    SharedPreferences.Editor editor = pref.edit();
+
+                    String webPublicationDate = dataResponse.getResponse().results.get(0).webPublicationDate;
+                    editor.putString(Constants.SharedPreferences.LAST_WEB_PUBLICATION_DATE, webPublicationDate);
+                    editor.commit();
+                    Log.e("LOG_TAG", "webPublicationDate: " + webPublicationDate);
+                }
+
+                viewCallback.dataLoadedByPage(dataResponse);
             }
 
             @Override
-            public void onFailure(Call<DataResponse> call, Throwable t) {
-                viewCallback.displayError(t.getMessage());
+            public void onError(int errorCode, ResponseBody errorResponse) {
+                viewCallback.displayError("error code : " + errorCode);
             }
-        });
+
+            @Override
+            public void onFailure(Throwable failure) {
+                viewCallback.displayError(failure.getMessage());
+            }
+
+        }, page);
     }
 
+    @Override
+    public void getDataSearchedByFromDate(String fromDate) {
 
+    }
 
 }

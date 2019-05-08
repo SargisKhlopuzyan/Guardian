@@ -75,9 +75,18 @@ public class HomePageActivity extends AppCompatActivity implements HomePageContr
     }
 
     @Override
-    public void loadedData(DataResponse dataResponse) {
+    public void dataLoadedByPage(DataResponse dataResponse) {
         HomePageAdapter dataAdapter = (HomePageAdapter) binding.recyclerView.getAdapter();
-        dataAdapter.addNewResults(dataResponse.getResponse().results);
+        dataAdapter.addDataSearchedByPage(dataResponse.getResponse().results);
+
+        binding.setIsRefreshing(false);
+        binding.setIsStatusVisible(false);
+    }
+
+    @Override
+    public void dataLoadedByFromDate(DataResponse dataResponse) {
+        HomePageAdapter dataAdapter = (HomePageAdapter) binding.recyclerView.getAdapter();
+        dataAdapter.addDataSearchedByFromDate(dataResponse.getResponse().results);
 
         binding.setIsRefreshing(false);
         binding.setIsStatusVisible(false);
@@ -127,19 +136,19 @@ public class HomePageActivity extends AppCompatActivity implements HomePageContr
         HomePageAdapter adapter = new HomePageAdapter(this, result -> {
                 Intent intent = new Intent(HomePageActivity.this, ArticleViewPageActivity.class);
                 intent.putExtra(Constants.PayloadKey.RESULT, result);
-                startActivityForResult(intent, Constants.RequestCode.ARTICLE_VIEW_ACTIVITY_REQUEST_CODE);
+                startActivity(intent);
         });
         binding.recyclerView.setAdapter(adapter);
     }
 
     private void getInitialDataByPage() {
-        DataController.getInstance().setLoadedTriesCount(1);
-        presenter.getDataSearchedByPage(DataController.getInstance().getLoadedTriesCount());
+        DataController.getInstance().setPage(1);
+        presenter.getDataSearchedByPage(DataController.getInstance().getPage());
     }
 
     private void getDataOfNextPage() {
-        DataController.getInstance().increaseLoadedTriesCount(1);
-        presenter.getDataSearchedByPage(DataController.getInstance().getLoadedTriesCount());
+        DataController.getInstance().increasePageBy(1);
+        presenter.getDataSearchedByPage(DataController.getInstance().getPage());
     }
 
     @NonNull
