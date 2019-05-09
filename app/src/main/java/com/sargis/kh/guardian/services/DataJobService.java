@@ -1,6 +1,7 @@
 package com.sargis.kh.guardian.services;
 
 import android.app.ActivityManager;
+import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -50,7 +51,7 @@ public class DataJobService extends JobService {
                         if (isAppOnForeground(GuardianApplication.getContext())) {
                             EventBus.getDefault().post(dataResponse);
                         } else {
-                            showNotification(GuardianApplication.getContext(), "New Data Is Available: " + lastWebPublicationDate, dataResponse);
+                            showNotification(GuardianApplication.getContext(), "New Data Is Available", lastWebPublicationDate);
                         }
                     }
                 }
@@ -77,10 +78,10 @@ public class DataJobService extends JobService {
         return false;
     }
 
-    private void showNotification(Context context, String message, DataResponse dataResponse){
+    private void showNotification(Context context, String message, String fromDate){
 
         Intent intent = new Intent(context, HomePageActivity.class);
-        intent.putExtra(Constants.PayloadKey.DATA_RESPONSE, dataResponse);
+        intent.putExtra(Constants.PayloadKey.FROM_DATE, fromDate);
 
         PendingIntent pendingIntent = PendingIntent.getActivity(context,0,intent,PendingIntent.FLAG_UPDATE_CURRENT);
 
@@ -109,7 +110,9 @@ public class DataJobService extends JobService {
             }
         }
 
-        notificationManager.notify(Constants.Notification.NOTIFICATION_ID, builder.build());
+        Notification notification = builder.build();
+        notification.flags |= Notification.FLAG_AUTO_CANCEL;
+        notificationManager.notify(Constants.Notification.NOTIFICATION_ID, notification);
     }
 
     private boolean isAppOnForeground(Context context) {

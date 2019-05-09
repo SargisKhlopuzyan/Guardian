@@ -15,14 +15,13 @@ import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class HomePageAdapter extends RecyclerView.Adapter<HomePageAdapter.DataAdapterViewHolder> {
 
     private OnBottomReachedListener onBottomReachedListener;
     private final OnItemClickListener listener;
 
-    private List<Results> results;
+    private ArrayList<Results> results;
 
     public HomePageAdapter(OnBottomReachedListener onBottomReachedListener, OnItemClickListener listener) {
         this.onBottomReachedListener = onBottomReachedListener;
@@ -54,22 +53,26 @@ public class HomePageAdapter extends RecyclerView.Adapter<HomePageAdapter.DataAd
         return results.size();
     }
 
-    public void addDataSearchedByPage(List<Results> results) {
-        ArrayList<Results> arrayList = new ArrayList(results);
-        this.results.addAll(arrayList);
+    public ArrayList<Results> getData() {
+        return results;
+    }
+
+    public void addDataSearchedByPage(ArrayList<Results> results) {
+//        ArrayList<Results> arrayList = new ArrayList(results);
+        this.results.addAll(results);
         notifyDataSetChanged();
     }
 
-    public void addDataSearchedByFromDate(List<Results> results) {
-        ArrayList<Results> arrayList = new ArrayList(results);
-        this.results.addAll(0, arrayList);
+    public void addDataSearchedByFromDate(ArrayList<Results> results) {
+//        ArrayList<Results> arrayList = new ArrayList(results);
+        this.results.addAll(0, results);
         notifyDataSetChanged();
     }
 
-    public void setResults(List<Results> results) {
-        ArrayList<Results> arrayList = new ArrayList(results);
+    public void setResults(ArrayList<Results> results) {
+//        ArrayList<Results> arrayList = new ArrayList(results);
         this.results.clear();
-        this.results.addAll(arrayList);
+        this.results.addAll(results);
         notifyDataSetChanged();
     }
 

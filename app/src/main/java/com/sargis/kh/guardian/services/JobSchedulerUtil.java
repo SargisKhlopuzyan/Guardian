@@ -13,8 +13,8 @@ public class JobSchedulerUtil {
         ComponentName serviceComponent = new ComponentName(context, DataJobService.class);
 
         JobInfo.Builder builder = new JobInfo.Builder(Constants.JobScheduler.JOB_SCHEDULER_ID, serviceComponent);
-        builder.setMinimumLatency(30 * 60 * 100); // wait at least
-        builder.setOverrideDeadline(30 * 60 * 100 + 1); // maximum delay
+        builder.setMinimumLatency(/*30 * */60 * 100); // wait at least
+        builder.setOverrideDeadline(/*30 * */60 * 100 + 1); // maximum delay
         builder.setRequiredNetworkType(JobInfo.NETWORK_TYPE_ANY);
         JobInfo jobInfo = builder.build();
 

@@ -73,7 +73,7 @@ public class DataContentProvider extends ContentProvider {
                 id = db.insert(TABLE_NAME, null, values);
                 if (id > 0) {
                     returnUri = BASE_CONTENT_URI.buildUpon().appendPath(TABLE_NAME).appendPath("" + id).build();
-                    getContext().getContentResolver().notifyChange(uri, null);  //TODO
+                    getContext().getContentResolver().notifyChange(uri, null);
                     return returnUri;
                 } else {
                     throw new android.database.SQLException("Failed to insert row into " + uri);
@@ -88,7 +88,7 @@ public class DataContentProvider extends ContentProvider {
     public int delete(@NonNull Uri uri, @Nullable String selection, @Nullable String[] selectionArgs) {
         final SQLiteDatabase db = dbHelper.getReadableDatabase();
         int i = db.delete(TABLE_NAME, selection, selectionArgs);
-        getContext().getContentResolver().notifyChange(uri, null); //TODO
+        getContext().getContentResolver().notifyChange(uri, null);
         return i;
     }
 
@@ -96,7 +96,7 @@ public class DataContentProvider extends ContentProvider {
     public int update(@NonNull Uri uri, @Nullable ContentValues values, @Nullable String selection, @Nullable String[] selectionArgs) {
         final SQLiteDatabase db = dbHelper.getReadableDatabase();
         int i = db.update(TABLE_NAME, values, selection, selectionArgs);
-        getContext().getContentResolver().notifyChange(uri, null); //TODO
+        getContext().getContentResolver().notifyChange(uri, null);
         return i;
     }
 

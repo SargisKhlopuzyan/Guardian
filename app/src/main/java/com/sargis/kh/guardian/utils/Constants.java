@@ -6,7 +6,8 @@ public interface Constants {
 
     interface PayloadKey {
         String RESULT = "RESULT";
-        String DATA_RESPONSE = "DATA_RESPONSE";
+        String FROM_DATE = "FROM_DATE";
+        String IS_ONLY_CACHE_DATA_AVAILABLE = "IS_ONLY_CACHE_DATA_AVAILABLE";
     }
 
     interface SharedPreferences {
@@ -19,9 +20,9 @@ public interface Constants {
     }
 
     interface Loader {
-        int ID_LOADER_PINNED_DATA = 0;
-        int ID_LOADER_SAVED_DATA = 1;
-        int ID_LOADER_PINNED_AND_SAVED_DATA = 2;
+        int ID_LOADER_CACHED_DATA = 0;
+        int ID_LOADER_PINNED_DATA = 1;
+        int ID_LOADER_PINNED_AND_CACHED_DATA = 2;
         int ID_LOADER_ITEM_BY_ID = 3;
     }
 

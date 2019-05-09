@@ -1,6 +1,7 @@
 package com.sargis.kh.guardian;
 
 import android.content.ContentValues;
+import android.content.Intent;
 import android.database.Cursor;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
@@ -138,4 +139,11 @@ public class ArticleViewPageActivity extends AppCompatActivity implements Loader
 
     }
 
+    @Override
+    public void onBackPressed() {
+        Intent intent = getIntent();
+        setResult(RESULT_OK, intent);
+
+        super.onBackPressed();
+    }
 }

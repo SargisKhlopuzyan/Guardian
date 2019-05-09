@@ -7,7 +7,6 @@ import com.sargis.kh.guardian.database.DataSQLiteOpenHelper;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.List;
 
 public class Results implements Serializable {
 
@@ -25,9 +24,9 @@ public class Results implements Serializable {
 
     @SerializedName("isPinned") public int isPinned;
 
-    public static List<Results> fromCursor(Cursor cursor) {
+    public static ArrayList<Results> fromCursor(Cursor cursor) {
 
-        List<Results> resultsList = new ArrayList<>();
+        ArrayList<Results> resultsList = new ArrayList<>();
 
         if (cursor.moveToFirst()){
             do{

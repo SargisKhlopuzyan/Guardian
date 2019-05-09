@@ -13,13 +13,12 @@ import com.sargis.kh.guardian.models.Results;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class HomePagePinnedAdapter extends RecyclerView.Adapter<HomePagePinnedAdapter.DataAdapterViewHolder> {
 
     private final OnItemClickListener listener;
 
-    private List<Results> results;
+    private ArrayList<Results> results;
 
     public HomePagePinnedAdapter(OnItemClickListener listener) {
         this.listener = listener;
@@ -47,12 +46,16 @@ public class HomePagePinnedAdapter extends RecyclerView.Adapter<HomePagePinnedAd
         return results.size();
     }
 
-    public void setResults(List<Results> results) {
-        ArrayList<Results> arrayList = new ArrayList(results);
+    public void setResults(ArrayList<Results> results) {
+//        ArrayList<Results> arrayList = new ArrayList(results);
         this.results.clear();
-        this.results.addAll(arrayList);
+        this.results.addAll(results);
 
         notifyDataSetChanged();
+    }
+
+    public ArrayList<Results> getData() {
+        return results;
     }
 
     public class DataAdapterViewHolder extends RecyclerView.ViewHolder {

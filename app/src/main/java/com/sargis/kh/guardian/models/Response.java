@@ -3,7 +3,7 @@ package com.sargis.kh.guardian.models;
 import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
-import java.util.List;
+import java.util.ArrayList;
 
 public class Response implements Serializable {
 
@@ -23,6 +23,6 @@ public class Response implements Serializable {
 
     @SerializedName("orderBy") public String orderBy;
 
-    @SerializedName("results") public List<Results> results;
+    @SerializedName("results") public ArrayList<Results> results; //TODO
 
 }
