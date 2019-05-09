@@ -6,10 +6,7 @@ public interface Constants {
 
     interface PayloadKey {
         String RESULT = "RESULT";
-    }
-
-    interface ActionKey {
-
+        String DATA_RESPONSE = "DATA_RESPONSE";
     }
 
     interface SharedPreferences {
@@ -19,7 +16,6 @@ public interface Constants {
 
     interface RequestCode {
         int ARTICLE_VIEW_ACTIVITY_REQUEST_CODE = 0;
-
     }
 
     interface Loader {

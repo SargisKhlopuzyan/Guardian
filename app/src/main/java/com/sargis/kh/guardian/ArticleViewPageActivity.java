@@ -10,7 +10,6 @@ import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.widget.CheckBox;
 
 import com.sargis.kh.guardian.content_providers.DataContentProvider;
@@ -55,7 +54,6 @@ public class ArticleViewPageActivity extends AppCompatActivity implements Loader
 
 
         binding.setOnSaveClick(v -> {
-            Log.e("LOG_TAG", "setOnSaveClick");
             ContentValues contentValues = new ContentValues();
             contentValues.put(DataSQLiteOpenHelper.ARTICLE_ID, results.id);
             contentValues.put(DataSQLiteOpenHelper.CATEGORY, results.sectionName);
@@ -78,7 +76,6 @@ public class ArticleViewPageActivity extends AppCompatActivity implements Loader
 
         binding.setOnCheckboxClick(v -> {
             boolean isChecked = ((CheckBox)v).isChecked();
-            Log.e("LOG_TAG", "setOnCheckedChange:: isChecked: " + isChecked);
             ContentValues contentValues = new ContentValues();
             contentValues.put(DataSQLiteOpenHelper.ARTICLE_ID, results.id);
             contentValues.put(DataSQLiteOpenHelper.CATEGORY, results.sectionName);
@@ -109,7 +106,6 @@ public class ArticleViewPageActivity extends AppCompatActivity implements Loader
     @NonNull
     @Override
     public Loader<Cursor> onCreateLoader(int id, @Nullable Bundle args) {
-        Log.e("LOG_TAG", "onCreateLoader");
         CursorLoader cursorLoader = null;
         switch (id) {
             case Constants.Loader.ID_LOADER_ITEM_BY_ID:
@@ -123,7 +119,6 @@ public class ArticleViewPageActivity extends AppCompatActivity implements Loader
 
     @Override
     public void onLoadFinished(@NonNull Loader<Cursor> loader, Cursor cursor) {
-        Log.e("LOG_TAG", "onLoadFinished");
         if (cursor == null || cursor.isClosed()) return;
         List<Results> resultsList = Results.fromCursor(cursor);
         if (resultsList.size() == 0) return;

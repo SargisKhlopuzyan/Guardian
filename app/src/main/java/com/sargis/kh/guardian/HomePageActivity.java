@@ -12,19 +12,25 @@ import android.support.v4.content.Loader;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.StaggeredGridLayoutManager;
+import android.util.Log;
 
 import com.sargis.kh.guardian.adapters.HomePageAdapter;
 import com.sargis.kh.guardian.adapters.HomePagePinnedAdapter;
 import com.sargis.kh.guardian.content_providers.DataContentProvider;
 import com.sargis.kh.guardian.database.DataSQLiteOpenHelper;
 import com.sargis.kh.guardian.databinding.ActivityHomePageBinding;
+import com.sargis.kh.guardian.helpers.HelperSharedPreferences;
 import com.sargis.kh.guardian.listeners.OnBottomReachedListener;
 import com.sargis.kh.guardian.models.DataResponse;
 import com.sargis.kh.guardian.models.Results;
-import com.sargis.kh.guardian.presenters.DataController;
+import com.sargis.kh.guardian.network.DataController;
 import com.sargis.kh.guardian.presenters.HomePagePresenter;
 import com.sargis.kh.guardian.services.JobSchedulerUtil;
 import com.sargis.kh.guardian.utils.Constants;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.List;
 
@@ -48,13 +54,20 @@ public class HomePageActivity extends AppCompatActivity implements HomePageContr
         setupRecyclerViewPinned();
         setupRecyclerView();
 
-        if (isOfflineMode) {
-            getSupportLoaderManager().restartLoader(Constants.Loader.ID_LOADER_PINNED_AND_SAVED_DATA, null, this);
-            getSupportLoaderManager().restartLoader(Constants.Loader.ID_LOADER_SAVED_DATA, null, this);
+        Intent intent = getIntent();
+        if (intent.hasExtra(Constants.PayloadKey.DATA_RESPONSE)) {
+            DataResponse dataResponse = (DataResponse)intent.getSerializableExtra(Constants.PayloadKey.DATA_RESPONSE);
+            dataLoadedByFromDate(dataResponse);
         } else {
-            //TODO
-            getInitialDataByPage();
-            getSupportLoaderManager().restartLoader(Constants.Loader.ID_LOADER_PINNED_DATA, null, this);
+            if (isOfflineMode) {
+                //TODO
+                getSupportLoaderManager().restartLoader(Constants.Loader.ID_LOADER_PINNED_AND_SAVED_DATA, null, this);
+                getSupportLoaderManager().restartLoader(Constants.Loader.ID_LOADER_SAVED_DATA, null, this);
+            } else {
+                //TODO
+                getInitialDataByPage();
+                getSupportLoaderManager().restartLoader(Constants.Loader.ID_LOADER_PINNED_DATA, null, this);
+            }
         }
 
         binding.setOnRefreshListener(() -> {
@@ -65,6 +78,27 @@ public class HomePageActivity extends AppCompatActivity implements HomePageContr
                 getInitialDataByPage();
             }
         });
+
+    }
+
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onMessageEvent(DataResponse dataResponse) {
+        String lastWebPublicationDate = dataResponse.getResponse().results.get(0).webPublicationDate;
+        HelperSharedPreferences.setLastWebPublicationDateIncreasedByOneSecond(lastWebPublicationDate);
+        dataLoadedByFromDate(dataResponse);
+    };
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        EventBus.getDefault().register(this);
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        EventBus.getDefault().unregister(this);
     }
 
     @Override
